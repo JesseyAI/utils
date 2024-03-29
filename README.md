@@ -14,3 +14,8 @@
 * irobot_create_msgs::msg::WheelVels: 轮速计话题
 * sensor_msgs::msg::Imu: Imu话题
 * livox_ros_driver2::msg::CustomMsg: Livox点云话题
+
+### 1.2 使用方法
+```
+python3 ros2_bag_covert path/to/bag/.db3 path/to/save/data
+```
