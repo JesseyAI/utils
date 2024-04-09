@@ -1,0 +1,22 @@
+{
+    "window.zoomLevel": 1,
+    "cmake.configureOnOpen": false,
+    "cmake.showOptionsMovedNotification": false,
+    "editor.formatOnSave": true,
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "editor.fontFamily": " monospace",
+    "git.confirmSync": false,
+    "python.analysis.diagnosticSeverityOverrides": {},
+    "python.terminal.launchArgs": [],
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/galactic/lib/python3.8/site-packages",
+        "/home/qijie/.local/lib/python3.8/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/galactic/lib/python3.8/site-packages",
+        "/home/qijie/.local/lib/python3.8/site-packages"
+    ],
+    "python.analysis.completeFunctionParens": true
+}

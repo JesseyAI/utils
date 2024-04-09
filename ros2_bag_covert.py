@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     parser = BagFileParser(bag_file)
 
-    parser.save_nebula_message("/nebula200/mtof_points2",save_path)
+    #parser.save_nebula_message("/nebula200/mtof_points2",save_path)
 
     parser.save_wheel_message("/wheel_vels", save_path)
 

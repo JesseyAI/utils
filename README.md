@@ -3,6 +3,8 @@
 |工具名|用途|
 |---|------|
 |ros2_bag_covert|将ros2的bag转化成txt格式|
+|compare_pose|批量对比pose|
+|draw_corner_and_edge|绘制corner和edge|
 
 
 ## **1. ros2_bag_covert**
@@ -18,4 +20,20 @@
 ### 1.2 使用方法
 ```
 python3 ros2_bag_covert path/to/bag/.db3 path/to/save/data
+```
+## **2. compare_pose**
+**compare_pose**：调用evo，批量对比真值和slam的轨迹
+### 2.1 Requirement
+* evo
+### 2.2 使用方法
+```python
+pyhon3 compare_pose
+```
+
+## **3. draw_corner_and_edge**
+**draw_corner_and_edge**：使用open3D绘制corner和edge
+* open3d
+### 2.2 使用方法
+```python
+pyhon3 draw_corner_and_edge
 ```
