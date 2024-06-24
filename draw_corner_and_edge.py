@@ -1,6 +1,28 @@
 import open3d as o3d
 import numpy as np
+import cv2
 from time import sleep
+
+
+def save_view_point(pcd, filename):
+    vis = o3d.visualization.Visualizer()
+    vis.create_window()
+    vis.add_geometry(pcd)
+    vis.run()  # user changes the view and press "q" to terminate
+    param = vis.get_view_control().convert_to_pinhole_camera_parameters()
+    o3d.io.write_pinhole_camera_parameters(filename, param)
+    vis.destroy_window()
+
+
+def load_view_point(pcd, filename):
+    vis = o3d.visualization.Visualizer()
+    vis.create_window()
+    ctr = vis.get_view_control()
+    param = o3d.io.read_pinhole_camera_parameters(filename)
+    vis.add_geometry(pcd)
+    ctr.convert_from_pinhole_camera_parameters(param)
+    vis.run()
+    vis.destroy_window()
 
 def load_corner_triplet_txt(file_path):
     points = []
@@ -62,6 +84,10 @@ def VizSingleCornerTripletOnce(lines, points, corner_cloud, edges_cloud):
     vis = o3d.visualization.VisualizerWithKeyCallback()
     vis.create_window(window_name='CESI')
     # vis.toggle_full_screen() #全屏
+
+    ctr = vis.get_view_control()
+    param = o3d.io.read_pinhole_camera_parameters("viewpoint.json")
+    ctr.convert_from_pinhole_camera_parameters(param)
     
     #设置
     opt = vis.get_render_option()
@@ -86,24 +112,22 @@ def VizSingleCornerTripletOnce(lines, points, corner_cloud, edges_cloud):
             pass
         return True
     
-    # idx = 0
-    # vis.add_geometry(lines[idx])
-    # def callback2(vis):
-    #     nonlocal run_flag, lines, idx
-    #     if run_flag and idx < len(lines):
-    #         vis.add_geometry(lines[idx])
-    #         vis.poll_events() # 轮询event 
-    #         vis.update_renderer()
-    #         #vis.remove_geometry(lines[idx])
-    #         idx += 1
-    #         sleep(0.1)
+    idx = 0
+    def callback2(vis):
+        nonlocal run_flag, lines, idx
+        if run_flag and idx < len(lines):
+            vis.add_geometry(lines[idx])
+            vis.poll_events() # 轮询event 
+            vis.update_renderer()
+            #vis.remove_geometry(lines[idx])
+            idx += 1
+            sleep(0.1)
 
-    for line_i in lines:
-        vis.add_geometry(line_i)     
-
-    # vis.register_key_action_callback(32, callback1)
-    # vis.register_animation_callback(callback2) 
+    vis.register_key_action_callback(32, callback1)
+    vis.register_animation_callback(callback2) 
     vis.run()
+    # param = vis.get_view_control().convert_to_pinhole_camera_parameters()
+    # o3d.io.write_pinhole_camera_parameters("viewpoint.json", param)
     vis.destroy_window() 
 
 def VizAllCornerTriplet(lines, points, corner_cloud, edges_cloud):
@@ -131,11 +155,11 @@ def VizAllCornerTriplet(lines, points, corner_cloud, edges_cloud):
 
 if __name__ == "__main__":
     
-    corner_triplet_path = '/home/qijie/Data/reloc_data/hypercube/1101/1/res/corner_triplet1.txt'
+    corner_triplet_path = '/home/qijie/Data/reloc_data/hypercube/1101/1/res/corner_triplet_6.txt'
 
-    corner_cloud_path = '/home/qijie/Data/reloc_data/hypercube/1101/1/conrners.txt'
+    corner_cloud_path = '/home/qijie/Data/reloc_data/hypercube/result/map_corners.txt'
 
-    edges_cloud_path = '/home/qijie/Data/reloc_data/hypercube/1101/1/edges.txt'
+    edges_cloud_path = '/home/qijie/Data/reloc_data/hypercube/result/map_edges.txt'
 
     lines, points = draw_corner_triplet(corner_triplet_path)
 
@@ -145,6 +169,11 @@ if __name__ == "__main__":
     edges_cloud_color = [1,1,1]
     edges_cloud = get_point_cloud(edges_cloud_path,edges_cloud_color)
 
+   
+    #save_view_point(edges_cloud, "viewpoint.json")
+    # load_view_point(edges_cloud, "viewpoint.json")
+
+    #VizSingleCornerTripletOnce(lines, points, corner_cloud, edges_cloud)
     VizAllCornerTriplet(lines, points, corner_cloud, edges_cloud)
 
     # axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.5, origin=[0, 0, 0])
