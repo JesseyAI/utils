@@ -4,6 +4,7 @@ from rclpy.serialization import deserialize_message
 from sensor_msgs_py import point_cloud2
 import os
 import sys
+import struct
 
 class BagFileParser():
     def __init__(self, bag_file):
@@ -93,10 +94,10 @@ if __name__ == "__main__":
 
     parser = BagFileParser(bag_file)
 
-    #parser.save_nebula_message("/nebula200/mtof_points2",save_path)
+    parser.save_nebula_message("/camera/depth/color/points",save_path)
 
     parser.save_wheel_message("/wheel_vels", save_path)
 
-    parser.save_imu_message("/livox/imu", save_path)
+    parser.save_imu_message("/camera/imu", save_path)
 
-    #parser.save_livox_message("/livox/lidar",save_path)
+    # parser.save_livox_message("/livox/lidar",save_path)
